@@ -39,10 +39,15 @@ if __name__ == "__main__":
         "--tuning_method", required=True,
         type=str, help="Enter the HPO tuning algorithm to use within: ['grid', 'halving']")
     
+    parser.add_argument(
+        "--seed", required=True,
+        type=int, help="Enter the seed")
+    
     args = parser.parse_args()
     
     learning_method = args.learning_method
     tuning_method = args.tuning_method
+    seed = args.seed
     
     assert learning_method in ['random_forest', 'adaboost', 'gradient_boosting', 'voting', 'mlp']
     assert tuning_method in ['grid', 'halving']
@@ -66,14 +71,29 @@ if __name__ == "__main__":
 
     # Perform regression, ground truth is population count (POP)
     if learning_method == 'random_forest':
-        prediction_csv = rf_regressor(feature_folder, hp_strategy=tuning_method)
+        prediction_csv = rf_regressor(feature_folder, 
+                                      hp_strategy=tuning_method, 
+                                      seed=seed)
+        
     elif learning_method == 'adaboost':
-        prediction_csv = adaboost_regressor(feature_folder, hp_strategy=tuning_method)
+        prediction_csv = adaboost_regressor(feature_folder, 
+                                      hp_strategy=tuning_method, 
+                                      seed=seed)
+        
     elif learning_method == 'gradient_bosting':
-        prediction_csv = gradientboosting_regressor(feature_folder, hp_strategy=tuning_method)
+        prediction_csv = gradientboosting_regressor(feature_folder, 
+                                      hp_strategy=tuning_method, 
+                                      seed=seed)
+        
     elif learning_method == 'voting':
-        prediction_csv = voting_regressor(feature_folder, hp_strategy=tuning_method)
+        prediction_csv = voting_regressor(feature_folder, 
+                                      hp_strategy=tuning_method, 
+                                      seed=seed)
+        
     elif learning_method == 'mlp':
-        prediction_csv = mlp_regressor(feature_folder, hp_strategy=tuning_method)
+        prediction_csv = mlp_regressor(feature_folder, 
+                                      hp_strategy=tuning_method, 
+                                      seed=seed)
+        
     else:
         pass

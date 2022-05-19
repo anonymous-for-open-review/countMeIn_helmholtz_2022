@@ -15,14 +15,17 @@ from sklearn.model_selection import GridSearchCV, HalvingGridSearchCV
 
 from utils import plot_feature_importance
 from constants import min_fimportance, kfold, n_jobs, param_grid, covariate_list, current_dir_path, file_name_reg, ground_truth_col_reg
+import numpy as np
 
 
-def rf_regressor(feature_folder, hp_strategy=None):
+def rf_regressor(feature_folder, hp_strategy=None, seed=0):
     """
     :param feature_folder: path to feature folder
     :return: prediction csv path
     """
     print("Starting regression")
+    np.random.seed(seed)
+    
     # get all training cities
     feature_folder_train = os.path.join(feature_folder, 'train')
     all_train_cities = glob.glob(os.path.join(feature_folder_train, '*'))
