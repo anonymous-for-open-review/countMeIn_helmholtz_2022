@@ -82,7 +82,7 @@ params_grid_mlp = {'solver': ['lbfgs', 'sgd', 'adam'],
                       'activation': ['logistic', 'tanh', 'relu'],
                       #'early_stopping': [True, False],
                       'learning_rate': ['constant', 'invscaling', 'adaptive'],
-                      'hidden_layer_sizes':[(5,), (50,), (100,), ],
+                      #'hidden_layer_sizes':[(5,), (50,), (100,), ],
 }                       
 
 

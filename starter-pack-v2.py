@@ -10,7 +10,7 @@ except:
     import gdal
     import osr
 
-from utils import feature_engineering
+from utils import feature_engineering, validation_reg, get_perf
 
 from rf_regression import rf_regressor
 from adaboost_regression import adaboost_regressor
@@ -18,7 +18,8 @@ from gradientboosting_regression import gradientboosting_regressor
 from voting_regression import voting_regressor
 from mlp_regression import mlp_regressor
 
-
+#from sklearnex import patch_sklearn
+#patch_sklearn()
 
 if __name__ == "__main__":
 
@@ -68,7 +69,8 @@ if __name__ == "__main__":
     # create features for training and testing data from So2Sat POP Part1 and So2Sat POP Part2
     feature_folder = feature_engineering(all_patches_mixed_part1)
     feature_folder = feature_engineering(all_patches_mixed_part2)
-
+    
+    
     # Perform regression, ground truth is population count (POP)
     if learning_method == 'random_forest':
         prediction_csv = rf_regressor(feature_folder, 
@@ -80,7 +82,7 @@ if __name__ == "__main__":
                                       hp_strategy=tuning_method, 
                                       seed=seed)
         
-    elif learning_method == 'gradient_bosting':
+    elif learning_method == 'gradient_boosting':
         prediction_csv = gradientboosting_regressor(feature_folder, 
                                       hp_strategy=tuning_method, 
                                       seed=seed)
@@ -96,4 +98,16 @@ if __name__ == "__main__":
                                       seed=seed)
         
     else:
+        print('No learning')
         pass
+    
+    
+    validation_csv_path = prediction_csv.replace('prediction', 'validation')
+    validation_reg(prediction_csv, validation_csv_path, all_patches_mixed_test_part1)
+
+    mae, rmse, rsq = get_perf(prediction_csv, validation_csv_path, 
+                              all_patches_mixed_test_part1)
+
+    
+    
+    

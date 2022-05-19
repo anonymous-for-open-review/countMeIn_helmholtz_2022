@@ -32,8 +32,10 @@ def rf_regressor(feature_folder, hp_strategy=None, seed=0):
     # prepare the training dataframe
     training_df = pd.DataFrame()
     for each_city in all_train_cities:
-        city_csv = glob.glob(os.path.join(each_city, '*_features.csv'))[0]  # get the feature csv
-        city_df = pd.read_csv(city_csv)
+        #city_csv = glob.glob(os.path.join(each_city, '*_features.csv'))[0]  # get the feature csv
+        #city_df = pd.read_csv(city_csv)
+        city_csv = glob.glob(os.path.join(each_city, '*_features.pkl'))[0]  # get the feature csv        
+        city_df = pd.read_pickle(city_csv)        
         training_df = training_df.append(city_df, ignore_index=True)  # append data from all the training cities
 
     training_df.fillna(0, inplace=True)
@@ -137,8 +139,11 @@ def rf_regressor(feature_folder, hp_strategy=None, seed=0):
     all_test_cities = glob.glob(os.path.join(feature_folder_test, '*'))# get all test cities
     test_df = pd.DataFrame()
     for each_test_city in all_test_cities:
-        test_city_csv = glob.glob(os.path.join(each_test_city, '*features.csv'))[0]  # get the feature csv
-        test_city_df = pd.read_csv(test_city_csv)
+        #test_city_csv = glob.glob(os.path.join(each_test_city, '*features.csv'))[0]  # get the feature csv
+        #test_city_df = pd.read_csv(test_city_csv)
+        
+        test_city_csv = glob.glob(os.path.join(each_test_city, '*features.pkl'))[0]  # get the feature csv
+        test_city_df = pd.read_pickle(test_city_csv)
         test_df = test_df.append(test_city_df, ignore_index=True)  # append all test cities together
 
     # Get features

@@ -310,12 +310,16 @@ def feature_engineering(all_patches_mixed_path):
                 if not os.path.exists(feature_folder_city):
                     os.mkdir(feature_folder_city)
 
-                feature_csv_file = os.path.join(feature_folder_city, city_name + '_features.csv')  # create feature csv for city
+                #feature_csv_file = os.path.join(feature_folder_city, city_name + '_features.csv')  # create feature csv for city
+                feature_csv_file = os.path.join(feature_folder_city, city_name + '_features.pkl')  # create feature csv for city
+                
                 all_data = glob.glob(os.path.join(each_city, '*'))  # get all the data folders
 
                 for each_data in all_data:  # for each data folder in a city
                     all_patches = []  # list to all patches
                     if each_data.endswith('.csv'):  # skip the csv file, get only data folders
+                    #if each_data.endswith('.pkl'):  # skip the csv file, get only data folders
+                    
                         # skip the file
                         continue
                     all_classes = glob.glob(os.path.join(each_data, '*'))  # get all class folders in data folder
@@ -380,6 +384,12 @@ def feature_engineering(all_patches_mixed_path):
                     if each_data.endswith('osm_features'):  # process the osm data
                         for each_patch in all_patches:
                             osm_features = pd.read_csv(each_patch, header=None)  # read the osm feature csv file
+                            
+                            #import ipdb
+                            #ipdb.set_trace()
+                            
+                            #osm_features = pd.read_pickle(each_patch)  # read the osm feature csv file
+                            
                             osm_features = osm_features.dropna()  # drop the NA fields
                             osm_features = osm_features.T  # take the transpose to (2,56)
                             all_keys = osm_features.iloc[0].tolist()  # get all the keys
@@ -392,12 +402,14 @@ def feature_engineering(all_patches_mixed_path):
                         df_rest = pd.DataFrame()  # initialize data frame for a city
                         # add all the features to data frame
                         city_csv_file = os.path.join(each_city, city_name + '.csv')  # get the city's csv
+                        #city_csv_file = os.path.join(each_city, city_name + '.pkl')  # get the city's csv
                         id_list, city_list = get_id_response_var_test(all_patches)
                         df_rest['CITY'] = city_list
                         df_rest['GRD_ID'] = id_list 
 
                         if each_folder.__contains__('train'):
                             city_df = pd.read_csv(city_csv_file)  # data frame for the city
+                            #city_df = pd.read_pickle(city_csv_file)  # data frame for the city                            
                             print('city_csv_file', city_csv_file)
                             id_list, city_list, class_list, pop_count, pop_dens, log_pop_dens = get_id_response_var_train(
                                 all_patches, city_df)
@@ -479,7 +491,16 @@ def feature_engineering(all_patches_mixed_path):
                 df_rest['SEN2_WIN_MIN_B'] = sen2_win_min_b_feat
 
                 df = pd.concat([df_rest, df_osm], axis=1)  # appending the rest of features and osm features
-                df.to_csv(feature_csv_file, index=False)  # save the features to csv files
+                #df.to_csv(feature_csv_file, index=False)  # save the features to csv files
+                #local_hfd5_filename = feature_csv_file.rsplit('.')[0] + '.h5'
+                #print('local filename h5: ', local_hfd5_filename)
+                #df.to_hdf(local_hfd5_filename, key='df', mode='w') 
+                
+                local_pkl_filename = feature_csv_file.rsplit('.')[0] + '.pkl'
+                #print('local filename h5: ', local_pkl_filename)
+                df.to_pickle(local_pkl_filename) 
+                
+                
                 print("City {} finished".format(city_name))
         print('All cities processed for So2Sat POP Part 1 \n')
 
@@ -498,12 +519,14 @@ def feature_engineering(all_patches_mixed_path):
                 feature_folder = os.path.join(current_dir_path, 'So2Sat_POP_features')
 
                 feature_folder_city = os.path.join(feature_folder, each_city.split(os.sep)[-2], city_name)
-                feature_csv_file = glob.glob(os.path.join(feature_folder_city, '*.csv'))[0]
+                #feature_csv_file = glob.glob(os.path.join(feature_folder_city, '*.csv'))[0]
+                feature_csv_file = glob.glob(os.path.join(feature_folder_city, '*.pkl'))[0]
                 all_data = glob.glob(os.path.join(each_city, '*'))  # get all the data folders
 
                 for each_data in all_data:  # for each data folder in a city
                     all_patches = []  # list to all patches
-                    if each_data.endswith('.csv'):  # skip the csv file, get only data folders
+                    if each_data.endswith('.csv'):  # skip the csv file, get only data folders                    
+                    #if each_data.endswith('.pkl'):  # skip the csv file, get only data folders
                         # skip the file
                         continue
                     all_classes = glob.glob(os.path.join(each_data, '*'))  # get all class folders in data folder
@@ -524,9 +547,17 @@ def feature_engineering(all_patches_mixed_path):
                 if os.path.isfile(feature_csv_file):
                     df_rest['DEM_MEAN'] = dem_mean_feat
                     df_rest['DEM_MAX'] = dem_max_feat
-                    df_part1 = pd.read_csv(feature_csv_file)
+                    #df_part1 = pd.read_csv(feature_csv_file)
+                    df_part1 = pd.read_pickle(feature_csv_file)
+                    
                     df = pd.concat([df_part1, df_rest], axis=1)  # appending the rest of features and osm features
-                    df.to_csv(feature_csv_file, index=False)  # save the features to csv files
+                    #print('local feature file: ', feature_csv_file)
+                    #df.to_csv(feature_csv_file, index=False)  # save the features to csv files
+                    
+                    local_pkl_filename = feature_csv_file.rsplit('.')[0] + '.pkl'
+                    #print('local feature file (pkl): ', feature_csv_file)
+                    df.to_pickle(local_pkl_filename) 
+                    
                     print("City {} finished".format(city_name))
                 else:
                     print('No feature file found in part1. Please check')
