@@ -35,7 +35,8 @@ echo "feature folder: " $feature_folder
 
 #srun singularity run /p/project/hai_countmein/countmein_sklearn_1.0.sif  python3 starter-pack-v2.py --data_path_So2Sat_pop_part1  $data_1 --data_path_So2Sat_pop_part2 $data_2 --learning_method $learning_algo --tuning_method $tuning_method --seed 10
 
-srun singularity run /p/project/hai_countmein/countmein_sklearn_1.0.sif \
+srun --account hai_countmein \
+singularity run /p/project/hai_countmein/countmein_sklearn_1.0.sif \
 python3 starter-pack-v3.py --data_path_So2Sat_pop_part1 $data_1 \
 --data_path_So2Sat_pop_part2 $data_2 \
 --learning_method $learning_algo  \
