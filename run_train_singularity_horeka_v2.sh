@@ -26,8 +26,7 @@ echo "data path2: " $data_2
 echo "Training (and not feature engineering)': " $training_no_feature
 echo "feature folder: " $feature_folder
 
-#srun \
-singularity run --bind /hkfs /hkfs/home/dataset/datasets/So2Sat_POP/countmein_sklearn_1.0.sif \
+srun singularity run --bind /hkfs /hkfs/home/dataset/datasets/So2Sat_POP/countmein_sklearn_1.0.sif \
 python3 starter-pack-v3.py --data_path_So2Sat_pop_part1 $data_1 \
 --data_path_So2Sat_pop_part2 $data_2 \
 --learning_method $learning_algo  \
