@@ -15,6 +15,7 @@ from sklearn.model_selection import GridSearchCV, HalvingGridSearchCV
 from utils import plot_feature_importance
 from constants import min_fimportance, kfold, n_jobs, params_grid_voting, covariate_list, current_dir_path, file_name_voting, ground_truth_col_reg
 import numpy as np
+import time 
 
 def voting_regressor(feature_folder, hp_strategy=None, seed=0):
     """
@@ -82,7 +83,11 @@ def voting_regressor(feature_folder, hp_strategy=None, seed=0):
     
     search.fit(x, y)  # Fit the grid search to the data
     regressor = search.best_estimator_  # Save the best regressor
+    start = time.time()
     regressor.fit(x, y)  # Fit the best regressor with the data
+    stop = time.time()
+    fit_duration = stop - start
+    print(f"Training time of best: {fit_duration}s")
     # mean cross-validated score (OOB) and stddev of the best_estimator
     best_score = search.cv_results_['mean_test_score'][search.best_index_]
     best_std = search.cv_results_['std_test_score'][search.best_index_]
@@ -155,7 +160,11 @@ def voting_regressor(feature_folder, hp_strategy=None, seed=0):
         regressor = _pickle.load(f)
 
     # Predict on test data set
+    start = time.time()
     prediction = regressor.predict(x_test)
+    stop = time.time()
+    inference_duration = stop - start
+    print(f"Inference time of best: {inference_duration}s")
 
     # Save the prediction
     df_pred = pd.DataFrame()
