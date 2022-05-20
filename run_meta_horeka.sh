@@ -2,7 +2,7 @@
 # `bash -x` for detailed Shell debugging
 
 
-JOBID=$(sbatch --nodes=1 --account=hai_countmein --time=00:00:05 --partition=booster --gres=gpu:1 run_train_singularity_horeka_v2.sh adaboost grid 0 )
+JOBID=$(sbatch --nodes=1 --account=hai_countmein --time=00:00:05 --partition=booster --gres=gpu:1 run_train_singularity_horeka_v2.sh adaboost grid 0 2>&1 | awk '{print $(NF)}')
 echo "Done with: ${JOBID} - feature eng"
 
 sbatch --dependency=afterok:${JOBID} --nodes=1 --account=hai_countmein --time=00:00:05 --partition=booster --gres=gpu:1 \
