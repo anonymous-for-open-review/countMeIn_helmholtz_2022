@@ -4,7 +4,6 @@
 
 sbatch --nodes=1 --time=24:00:00 --partition=booster --gres=gpu:1 \
 run_train_singularity_horeka_v2.sh adaboost grid 0 && \
-## Build train following ...
 run_train_singularity_horeka_v2.sh adaboost grid 1 && \
 run_train_singularity_horeka_v2.sh adaboost halving 1 && \
 run_train_singularity_horeka_v2.sh gradient_boosting grid 1 && \
