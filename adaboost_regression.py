@@ -42,6 +42,7 @@ def adaboost_regressor(feature_folder, hp_strategy=None, seed=0):
     x = training_df[covariate_list]
 
     print("Starting training...\n")
+    
     # Initialize the model
     adaboost_model = AdaBoostRegressor(n_estimators=500, random_state=0)  # random_state is fixed to allow exact replication
     sel = SelectFromModel(adaboost_model, threshold=min_fimportance)

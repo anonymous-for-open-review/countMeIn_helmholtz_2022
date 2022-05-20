@@ -18,9 +18,6 @@ from gradientboosting_regression import gradientboosting_regressor
 from voting_regression import voting_regressor
 from mlp_regression import mlp_regressor
 
-#from sklearnex import patch_sklearn
-#patch_sklearn()
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
