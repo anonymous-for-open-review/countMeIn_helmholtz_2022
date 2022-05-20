@@ -17,6 +17,3 @@ run_train_singularity_jb_v2.sh random_forest halving 1
 
 run_train_singularity_jb_v2.sh voting grid 1
 run_train_singularity_jb_v2.sh voting halving 1
-
-
-   
