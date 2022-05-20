@@ -1,4 +1,4 @@
- #!/usr/bin/env bash
+#!/usr/bin/env bash
 # `bash -x` for detailed Shell debugging
 
 
