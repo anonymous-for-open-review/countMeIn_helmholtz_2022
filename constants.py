@@ -44,8 +44,8 @@ min_fimportance = 0.002
 
 # Parameter for the Grid Search for hyperparameter optimization
 param_grid = {'oob_score': [True], 'bootstrap': [True],
-              'max_features': ['sqrt', 0.05, 0.1, 0.3], #'max_features': ['sqrt', 0.05, 0.1, 0.2, 0.3, 0.4],
-              'n_estimators': [250, 350, 500], #'n_estimators': [250, 350, 500, 750, 1000]
+              'max_features': ['sqrt', 0.05, 0.1, 0.2, 0.3, 0.4],
+              'n_estimators': [250, 350, 500, 750, 1000]
               }
 
 #from sklearn.gaussian_process import GaussianProcessRegressor
@@ -53,27 +53,36 @@ param_grid = {'oob_score': [True], 'bootstrap': [True],
 
 file_name_ada = 'ada_reg'
 param_grid_adaboost = { #'base_estimator':[DecisionTreeRegressor, GaussianProcessRegressor],
-              'learning_rate': [0.1, 0.5, 1.0],  #, 2.0, 3.0],
-              'n_estimators': [250, 350, 500], # 'n_estimators': [250, 350, 500, 750, 1000],
+              'learning_rate': [0.0001, 0.001, 0.01, 0.1, 1.0],  #, 2.0, 3.0],
+              'n_estimators': [250, 350, 500, 750, 1000],
               'loss': ['linear', 'square', 'exponential']
 }
 
 file_name_gb = 'gb_reg'
 param_grid_gradientboosting = {
               'loss':['squared_error', 'absolute_error', 'huber', 'quantile'],
-              'max_depth': [3, 5, 7, 9], #[3, 4, 5, 6, 7, 8, 9],
-              'n_estimators': [250, 350, 500], #'n_estimators': [250, 350, 500, 750, 1000],
+              'max_depth': [3, 4, 5, 6, 7, 8, 9],
+              'n_estimators': [250, 350, 500, 750, 1000],
               'criterion':['friedman_mse', 'squared_error'],
-              'max_features': ['sqrt', 0.05, 0.1, 0.3], #['sqrt', 0.05, 0.1, 0.2, 0.3, 0.4],
+              'max_features': ['sqrt', 0.05, 0.1, 0.2, 0.3, 0.4],
 
               }
 file_name_voting = 'voting_reg'
-params_grid_voting = {#'rf__n_estimators': [250, 350, 500, 750, 1000], 
-                      #'ada__n_estimators': [250, 350, 500, 750, 1000], 
-                      #'gb__n_estimators': [250, 350, 500, 750, 1000],
-                      'rf__n_estimators': [250, 350, 500], 
-                      'ada__n_estimators': [250, 350, 500],
-                      'gb__n_estimators': [250, 350, 500],                       
+params_grid_voting = {'rf__n_estimators': [250, 350, 500, 750, 1000], 
+                      'ada__n_estimators': [250, 350, 500, 750, 1000], 
+                      'gb__n_estimators': [250, 350, 500, 750, 1000],
+                      #'rf__n_estimators': [250, 350, 500], 
+                      #'ada__n_estimators': [250, 350, 500],
+                      #'gb__n_estimators': [250, 350, 500], 
+                      'gb__loss':['squared_error', 'absolute_error', 'huber', 'quantile'],
+                      'gb__max_depth': [3, 4, 5, 6, 7, 8, 9],
+                      'gb__criterion':['friedman_mse', 'squared_error'],
+                      'gb__max_features': ['sqrt', 0.05, 0.1, 0.2, 0.3, 0.4],          
+                      'ada__learning_rate': [0.0001, 0.001, 0.01, 0.1, 1.0],  #, 2.0, 3.0],
+                      'ada__loss': ['linear', 'square', 'exponential'],
+                      'rf__oob_score': [True], 
+                      'rf__bootstrap': [True],
+                      'rf__max_features': ['sqrt', 0.05, 0.1, 0.2, 0.3, 0.4],                                    
                       }
 
 file_name_mlp = 'mlp_reg'

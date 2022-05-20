@@ -29,3 +29,7 @@ python starter-pack-v3.py --data_path_So2Sat_pop_part1 $data_1 \
 --seed 10 \
 --training_no_engineering $training_no_feature \
 --data_path_feature_folder $feature_folder 
+
+
+
+#python starter-pack-v3.py --data_path_So2Sat_pop_part1 $data_1 --data_path_So2Sat_pop_part2 $data_2 --learning_method adaboost --tuning_method grid --seed 10 --training_no_engineering 1 --data_path_feature_folder $feature_folder 
